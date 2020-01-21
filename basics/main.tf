@@ -49,6 +49,12 @@ resource "aws_security_group" "elb" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    from_port   = 443
+    to_port     = var.elb_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
     Name = "terraform-example-martu"
@@ -90,14 +96,14 @@ resource "aws_elb" "example" {
     lb_protocol       = "http"
     instance_port     = var.server_port
     instance_protocol = "http"
+  }
 
-    listener {
+  listener {
     instance_port      = var.server_port
     instance_protocol  = "http"
     lb_port            = 443
     lb_protocol        = "https"
-    ssl_certificate_id = "arn:aws:iam::123456789012:server-certificate/certName"
-  }
+    ssl_certificate_id = "arn:aws:acm:us-east-2:509729018777:certificate/b2d223fa-cfa1-4780-a1e0-09bd42f78d9e"
   }
 
   tags = {
