@@ -90,6 +90,14 @@ resource "aws_elb" "example" {
     lb_protocol       = "http"
     instance_port     = var.server_port
     instance_protocol = "http"
+
+    listener {
+    instance_port      = var.server_port
+    instance_protocol  = "http"
+    lb_port            = 443
+    lb_protocol        = "https"
+    ssl_certificate_id = "arn:aws:iam::123456789012:server-certificate/certName"
+  }
   }
 
   tags = {
